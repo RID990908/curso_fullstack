@@ -32,12 +32,10 @@ const App = () => {
       <Button onClick={increaseNeutral} text="neutral" />
       <Button onClick={increaseBad} text="bad" />
       <Header course={course.statistics} />
-      <Display text="Good" counter={good} />
-      <Display text="Neutral" counter={neutral} />
-      <Display text="Bad" counter={bad} />
-      <Display text="All" counter={counter} />
-      <Display text="Average" counter={(good - bad) / counter} />
-      <Display text="Positive" counter={(good / counter) * 100 + ' %'} />
+      <Statistics good={good} neutral={neutral} bad={bad} />
+      <Display text="all" counter={counter} />
+      <Display text="average" counter={(good - bad) / counter} />
+      <Display text="positive" counter={(good / counter) * 100 + ' %'} />
     </div>
   )
 }
@@ -59,6 +57,15 @@ const Button = ({ onClick, text }) => {
     <button onClick={onClick}>
       {text}
     </button>
+  )
+}
+const Statistics = ({ good, neutral, bad }) => {
+  return (
+    <div>
+      <p>Good: {good}</p>
+      <p>Neutral: {neutral}</p>
+      <p>Bad: {bad}</p>
+    </div>
   )
 }
 
