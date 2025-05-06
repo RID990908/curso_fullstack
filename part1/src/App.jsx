@@ -1,27 +1,30 @@
+import { useState } from 'react'
+
 const App = () => {
-  const course = {
-    name: 'Half Stack application development',
-    parts: [
-      {
-        name: 'Fundamentals of React',
-        exercises: 10
-      },
-      {
-        name: 'Using props to pass data',
-        exercises: 7
-      },
-      {
-        name: 'State of a component',
-        exercises: 14
-      }
-    ]
+  const [counter, setCounter] = useState(0)
+  console.log('rendering with counter value', counter)
+
+  const increaseByOne = () => {
+    console.log('increasing, value before', counter)
+    setCounter(counter + 1)
+  }
+
+  const decreaseByOne = () => { 
+    console.log('decreasing, value before', counter)
+    setCounter(counter - 1)
+  }
+
+  const setToZero = () => {
+    console.log('resetting to zero, value before', counter)
+    setCounter(0)
   }
 
   return (
     <div>
-      <Header course={course.name} />
-      <Content parts={[course.parts.at(0), course.parts.at(1), course.parts.at(2)]} />
-      <Total total={course.parts.reduce((sum, part) => sum + part.exercises, 0)} />
+      <Display counter={counter} />
+      <Button onClick={increaseByOne} text="plus" />
+      <Button onClick={setToZero} text="zero" />
+      <Button onClick={decreaseByOne} text="minus" />
     </div>
   )
 }
@@ -46,6 +49,18 @@ const Part = ({ name, exercises }) => {
 
 const Total = ({ total }) => {
   return <p>Number of exercises {total}</p>
+}
+const Display = ({counter}) => {
+  return (
+    <div>{counter}</div>
+  )
+}
+const Button = ({onClick,text}) => {
+  return (
+    <button onClick={onClick}>
+      {text}
+    </button>
+  )
 }
 
 export default App
