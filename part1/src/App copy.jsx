@@ -10,6 +10,7 @@ const App = () => {
   const [neutral, setNeutral] = useState(0)
   const [bad, setBad] = useState(0)
   const [counter, setCounter] = useState(0)
+  const total = good + neutral + bad
   const increaseCounter = () => setCounter(counter + 1)
 
   const increaseGood = () => {
@@ -33,6 +34,13 @@ const App = () => {
       <Button onClick={increaseBad} text="bad" />
       <Header course={course.statistics} />
       <Statistics good={good} neutral={neutral} bad={bad} />
+      {total > 0 && (
+        <>
+          <Display text="all" counter={total} />
+          <Display text="average" counter={(good - bad) / total} />
+          <Display text="positive" counter={(good / total) * 100 + ' %'} />
+        </>
+      )}
     </div>
   )
 }
@@ -58,29 +66,25 @@ const Button = ({ onClick, text }) => {
 }
 const StatisticLine = ({ text, value }) => {
   return (
-    <tr>
-      <td>{text}</td>
-      <td>{value}</td>
-    </tr>
+    <p>
+      {text}: {value}
+    </p>
   )
 }
-const Statistics = ({ good, neutral, bad }) => {
-  const total = good + neutral + bad
+const Statistics = ({ good, neutral, bad, total }) => {
   if (total === 0) {
     return <p>No feedback given</p>
   }
 
   return (
-    <table>
-      <tbody>
-        <StatisticLine text="good" value={good} />
-        <StatisticLine text="neutral" value={neutral} />
-        <StatisticLine text="bad" value={bad} />
-        <StatisticLine text="all" value={total} />
-        <StatisticLine text="average" value={(good - bad) / total} />
-        <StatisticLine text="positive" value={(good / total) * 100 + ' %'} />
-      </tbody>
-    </table>
+    <div>
+      <StatisticLine text="good" value={good} />
+      <StatisticLine text="neutral" value={neutral} />
+      <StatisticLine text="bad" value={bad} />
+      <StatisticLine text="all" value={total} />
+      <StatisticLine text="average" value={(good - bad) / total} />
+      <StatisticLine text="positive" value={(good / total) * 100 + ' %'} />
+    </div>
   )
 }
 
