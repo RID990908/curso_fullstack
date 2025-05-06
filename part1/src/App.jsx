@@ -10,6 +10,7 @@ const App = () => {
   const [neutral, setNeutral] = useState(0)
   const [bad, setBad] = useState(0)
   const [counter, setCounter] = useState(0)
+  const total = good + neutral + bad
   const increaseCounter = () => setCounter(counter + 1)
 
   const increaseGood = () => {
@@ -33,9 +34,13 @@ const App = () => {
       <Button onClick={increaseBad} text="bad" />
       <Header course={course.statistics} />
       <Statistics good={good} neutral={neutral} bad={bad} />
-      <Display text="all" counter={counter} />
-      <Display text="average" counter={(good - bad) / counter} />
-      <Display text="positive" counter={(good / counter) * 100 + ' %'} />
+      {total > 0 && (
+        <>
+          <Display text="all" counter={total} />
+          <Display text="average" counter={(good - bad) / total} />
+          <Display text="positive" counter={(good / total) * 100 + ' %'} />
+        </>
+      )}
     </div>
   )
 }
@@ -60,6 +65,10 @@ const Button = ({ onClick, text }) => {
   )
 }
 const Statistics = ({ good, neutral, bad }) => {
+  const total = good + neutral + bad
+  if (total === 0) {
+    return <p>No feedback given</p>
+  }
   return (
     <div>
       <p>Good: {good}</p>
